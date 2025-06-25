@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Link da Aula</title>
+</head>
+<body>
+  <h2>Link compartilhado:</h2>
+  <div id="linkContainer">Carregando...</div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbw3JMfosMGh7S-ulSU8A1aSbvA0qClKSiEYzFsLC_R6FPKWTMcfM7JCghGsKmGmFanszQ/exec";
+
+    fetch(API_URL)
+      .then(response => response.text())
+      .then(link => {
+        const container = document.getElementById('linkContainer');
+        if (link) {
+          const a = document.createElement('a');
+          a.href = link;
+          a.textContent = link;
+          a.target = "_blank";
+          container.innerHTML = "";
+          container.appendChild(a);
+        } else {
+          container.textContent = "Nenhum link disponível.";
+        }
+      })
+      .catch(() => {
+        document.getElementById('linkContainer').textContent = "Erro ao carregar o link.";
+      });
+  </script>
+</body>
+</html>
