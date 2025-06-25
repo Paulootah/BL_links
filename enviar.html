@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Enviar Link para os Alunos</title>
+</head>
+<body>
+  <h2>Enviar link para a turma</h2>
+  <input type="text" id="linkInput" placeholder="Cole o link aqui" style="width: 300px;">
+  <button onclick="enviarLink()">Enviar</button>
+  <p id="mensagem"></p>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbw3JMfosMGh7S-ulSU8A1aSbvA0qClKSiEYzFsLC_R6FPKWTMcfM7JCghGsKmGmFanszQ/exec";
+
+    function enviarLink() {
+      const link = document.getElementById('linkInput').value.trim();
+      const mensagem = document.getElementById('mensagem');
+
+      if (!link) {
+        mensagem.textContent = "Por favor, insira um link.";
+        mensagem.style.color = "red";
+        return;
+      }
+
+      fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify({ link }),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(response => response.text())
+      .then(() => {
+        mensagem.textContent = "Link enviado com sucesso!";
+        mensagem.style.color = "green";
+        document.getElementById('linkInput').value = '';
+      })
+      .catch(() => {
+        mensagem.textContent = "Erro ao enviar o link.";
+        mensagem.style.color = "red";
+      });
+    }
+  </script>
+</body>
+</html>
